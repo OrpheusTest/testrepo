@@ -1,0 +1,45 @@
+{
+	"name": "dffDate",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "csvproducts",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "GreaterThan5",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "LessThanFive",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "dcActiveFrom"
+				},
+				{
+					"name": "dcActiveTo"
+				},
+				{
+					"name": "ConditionalSplit1"
+				}
+			],
+			"script": "source(output(\n\t\tProductID as string,\n\t\tSupplierID as string,\n\t\tCategoryID as string,\n\t\tProductName as string,\n\t\tActiveFrom as string,\n\t\tActiveTo as string,\n\t\tUnitCost as string,\n\t\tUnitSale as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\ndcActiveTo derive(cActiveFrom = toDate(ActiveFrom,'dd/MM/yyyy')) ~> dcActiveFrom\nsource1 derive(cActiveTo = toDate(ActiveTo,'dd/MM/yyyy')) ~> dcActiveTo\ndcActiveFrom split(toDecimal(UnitSale)>=5,\n\tdisjoint: false) ~> ConditionalSplit1@(GreaterThanFive, LessThanFive)\nConditionalSplit1@GreaterThanFive sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tProductID as integer,\n\t\tSupplierID as integer,\n\t\tCategoryID as integer,\n\t\tProductName as string,\n\t\tActiveFrom as date,\n\t\tActiveTo as date,\n\t\tUnitCost as decimal(19,4),\n\t\tUnitSale as decimal(19,4)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tProductID,\n\t\tSupplierID,\n\t\tCategoryID,\n\t\tProductName,\n\t\tActiveFrom = cActiveFrom,\n\t\tActiveTo = cActiveTo,\n\t\tUnitCost,\n\t\tUnitSale\n\t)) ~> sink1\nConditionalSplit1@LessThanFive sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tProductID as integer,\n\t\tSupplierID as integer,\n\t\tCategoryID as integer,\n\t\tProductName as string,\n\t\tActiveFrom as date,\n\t\tActiveTo as date,\n\t\tUnitCost as decimal(19,4),\n\t\tUnitSale as decimal(19,4)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tProductID,\n\t\tSupplierID,\n\t\tCategoryID,\n\t\tProductName,\n\t\tActiveFrom,\n\t\tActiveTo,\n\t\tUnitCost,\n\t\tUnitSale\n\t)) ~> sink2"
+		}
+	}
+}

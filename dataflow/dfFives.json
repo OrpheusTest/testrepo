@@ -1,0 +1,45 @@
+{
+	"name": "dfFives",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "csvproducts",
+						"type": "DatasetReference"
+					},
+					"name": "output1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "GreaterThan5",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "LessThanFive",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "dcDateFrom"
+				},
+				{
+					"name": "dcDateTo"
+				}
+			],
+			"script": "source(output(\n\t\tProductID as string,\n\t\tSupplierID as string,\n\t\tCategoryID as string,\n\t\tProductName as string,\n\t\tActiveFrom as string,\n\t\tActiveTo as string,\n\t\tUnitCost as string,\n\t\tUnitSale as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> output1\ndcDateFrom split(toDecimal(UnitSale)>=5,\n\tdisjoint: false) ~> ConditionalSplit1@(Over5, Under5)\ndcDateTo derive(cActiveFrom = toDate(ActiveFrom,'dd/MM/yyyy')) ~> dcDateFrom\noutput1 derive(cActiveTo = toDate(ActiveTo,'dd/MM/yyyy')) ~> dcDateTo\nConditionalSplit1@Over5 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tProductID as integer,\n\t\tSupplierID as integer,\n\t\tCategoryID as integer,\n\t\tProductName as string,\n\t\tActiveFrom as date,\n\t\tActiveTo as date,\n\t\tUnitCost as decimal(19,4),\n\t\tUnitSale as decimal(19,4)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tpreSQLs:['DELETE FROM dbo.tGreaterThan5'],\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tProductID,\n\t\tSupplierID,\n\t\tCategoryID,\n\t\tProductName,\n\t\tActiveFrom = cActiveFrom,\n\t\tActiveTo = cActiveTo\n\t)) ~> sink1\nConditionalSplit1@Under5 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tProductID as integer,\n\t\tSupplierID as integer,\n\t\tCategoryID as integer,\n\t\tProductName as string,\n\t\tActiveFrom as date,\n\t\tActiveTo as date,\n\t\tUnitCost as decimal(19,4),\n\t\tUnitSale as decimal(19,4)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tpreSQLs:['DELETE FROM dbo.tLessThanFive'],\n\terrorHandlingOption: 'stopOnFirstError') ~> sink2"
+		}
+	}
+}

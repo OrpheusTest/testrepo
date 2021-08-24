@@ -1,0 +1,26 @@
+{
+	"name": "trigTest",
+	"properties": {
+		"description": "Test Schedule Run",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pipeproducts",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2021-08-17T10:17:00Z",
+				"endTime": "2021-08-31T10:17:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}

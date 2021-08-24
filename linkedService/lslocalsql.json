@@ -1,0 +1,17 @@
+{
+	"name": "lslocalsql",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Linked Service to my local sql server",
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=LAPTOP-6LN2PHO2;initial catalog=TestDatabase;user id=testuser",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI3YjM1OWJhNC01MDQ4LTQzMmMtOGIxNi1hNGRjMTUyNzU4N2UiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "localintegrationruntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

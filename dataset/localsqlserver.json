@@ -1,0 +1,32 @@
+{
+	"name": "localsqlserver",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lslocalsql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "StoreID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "StoreName",
+				"type": "varchar"
+			},
+			{
+				"name": "RegionID",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tStores"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

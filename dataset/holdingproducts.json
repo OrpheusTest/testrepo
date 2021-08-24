@@ -1,0 +1,50 @@
+{
+	"name": "holdingproducts",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dbproducts",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ProductID",
+				"type": "varchar"
+			},
+			{
+				"name": "SupplierID",
+				"type": "varchar"
+			},
+			{
+				"name": "CategoryID",
+				"type": "varchar"
+			},
+			{
+				"name": "ProductName",
+				"type": "varchar"
+			},
+			{
+				"name": "ActiveFrom",
+				"type": "varchar"
+			},
+			{
+				"name": "ActiveTo",
+				"type": "varchar"
+			},
+			{
+				"name": "UnitCost",
+				"type": "varchar"
+			},
+			{
+				"name": "UnitSale",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "holding_tProducts"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

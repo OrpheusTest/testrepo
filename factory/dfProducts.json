@@ -1,0 +1,9 @@
+{
+	"name": "dfProducts",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "6bbc0326-42d1-428c-8d2a-4f0b4954a7fb",
+		"tenantId": "10c897a9-50df-4fc6-b9dc-6a3c42a2d850"
+	}
+}

@@ -1,0 +1,57 @@
+{
+	"name": "csvproducts",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "absproducts",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "dbo_tProducts.csv",
+				"container": "cdatasource"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "ProductID",
+				"type": "String"
+			},
+			{
+				"name": "SupplierID",
+				"type": "String"
+			},
+			{
+				"name": "CategoryID",
+				"type": "String"
+			},
+			{
+				"name": "ProductName",
+				"type": "String"
+			},
+			{
+				"name": "ActiveFrom",
+				"type": "String"
+			},
+			{
+				"name": "ActiveTo",
+				"type": "String"
+			},
+			{
+				"name": "UnitCost",
+				"type": "String"
+			},
+			{
+				"name": "UnitSale",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
