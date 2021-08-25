@@ -1,0 +1,17 @@
+{
+	"name": "sqlServerProducts",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "azKeyVault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "jdrake"
+			}
+		}
+	}
+}
